@@ -5,24 +5,24 @@ import { ArrowRight } from "lucide-react"
 
 const articles = [
   {
-    title: "Искусство визуального сторителлинга",
-    category: "Дизайн",
-    image: "/visual-storytelling-design-article.jpg",
+    title: "Как подготовиться к фотосессии за 5 минут",
+    category: "Советы",
+    image: "/fashion-photography-editorial-black-and-white.jpg",
   },
   {
-    title: "Как создать личный бренд онлайн",
-    category: "Стратегия",
-    image: "/personal-branding-digital-marketing.jpg",
+    title: "Почему дети лучше позируют в игровом формате",
+    category: "Дети",
+    image: "/fashion-model-editorial-portrait-dramatic-lighting.jpg",
   },
   {
-    title: "Тренды типографики 2025",
-    category: "Типографика",
-    image: "/typography-trends-modern-fonts.jpg",
+    title: "Семейные фото: как сохранить живые эмоции",
+    category: "Семья",
+    image: "/photography-portfolio-website-clean.jpg",
   },
   {
-    title: "Минимализм в дизайне портфолио",
+    title: "Тематические съёмки — тренд или вечная классика?",
     category: "Вдохновение",
-    image: "/placeholder.svg?height=200&width=300",
+    image: "/visual-storytelling-design-article.jpg",
   },
 ]
 
@@ -43,7 +43,7 @@ export function InsightsSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          Статьи
+          Полезное
         </motion.p>
 
         <div className="divide-y divide-border">

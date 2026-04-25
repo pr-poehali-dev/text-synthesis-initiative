@@ -1,77 +1,83 @@
 import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 
-function TypeTester() {
-  const [scale, setScale] = useState(1)
+function TimerAnimation() {
+  const [seconds, setSeconds] = useState(15)
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setScale((prev) => (prev === 1 ? 1.5 : 1))
-    }, 2000)
+      setSeconds((prev) => (prev === 0 ? 15 : prev - 1))
+    }, 800)
     return () => clearInterval(interval)
   }, [])
 
   return (
-    <div className="flex items-center justify-center h-full">
+    <div className="flex flex-col items-center justify-center h-full gap-2">
       <motion.span
         className="font-serif text-6xl md:text-8xl text-foreground"
-        animate={{ scale }}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        key={seconds}
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3 }}
       >
-        Aa
+        {seconds}
       </motion.span>
+      <span className="text-sm text-muted-foreground">минут</span>
     </div>
   )
 }
 
-function LayoutAnimation() {
-  const [layout, setLayout] = useState(0)
+function FamilyAnimation() {
+  const [count, setCount] = useState(1)
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setLayout((prev) => (prev + 1) % 3)
-    }, 2500)
+      setCount((prev) => (prev >= 5 ? 1 : prev + 1))
+    }, 1500)
     return () => clearInterval(interval)
   }, [])
 
-  const layouts = ["grid-cols-2 grid-rows-2", "grid-cols-3 grid-rows-1", "grid-cols-1 grid-rows-3"]
-
   return (
-    <div className="h-full p-4 flex items-center justify-center">
-      <motion.div className={`grid ${layouts[layout]} gap-2 w-full max-w-[140px]`} layout>
-        {[1, 2, 3].map((i) => (
+    <div className="h-full p-4 flex flex-col items-center justify-center gap-3">
+      <div className="flex gap-2 items-end">
+        {Array.from({ length: count }).map((_, i) => (
           <motion.div
             key={i}
-            className="bg-primary/20 rounded-md min-h-[30px]"
-            layout
-            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            className="bg-primary/30 rounded-full"
+            style={{ width: i === 0 || i === 1 ? 32 : 24, height: i === 0 || i === 1 ? 48 : 36 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
           />
         ))}
-      </motion.div>
+      </div>
+      <span className="text-sm text-muted-foreground">до {count} чел.</span>
     </div>
   )
 }
 
-function SpeedIndicator() {
-  const [progress, setProgress] = useState(0)
+function EmotionPulse() {
+  const emojis = ["😊", "😍", "🥰", "😄", "🤩"]
+  const [idx, setIdx] = useState(0)
 
   useEffect(() => {
-    const timeout = setTimeout(() => setProgress(100), 500)
-    return () => clearTimeout(timeout)
+    const interval = setInterval(() => {
+      setIdx((prev) => (prev + 1) % emojis.length)
+    }, 1200)
+    return () => clearInterval(interval)
   }, [])
 
   return (
-    <div className="flex flex-col items-center justify-center h-full gap-4">
-      <span className="text-3xl md:text-4xl font-sans font-medium text-foreground">100ms</span>
-      <span className="text-sm text-muted-foreground">Загрузка</span>
-      <div className="w-full max-w-[120px] h-1.5 bg-foreground/10 rounded-full overflow-hidden">
-        <motion.div
-          className="h-full bg-primary rounded-full"
-          initial={{ width: 0 }}
-          animate={{ width: `${progress}%` }}
-          transition={{ duration: 0.1 }}
-        />
-      </div>
+    <div className="flex flex-col items-center justify-center h-full gap-2">
+      <motion.span
+        key={idx}
+        className="text-6xl md:text-7xl"
+        initial={{ scale: 0.5, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+      >
+        {emojis[idx]}
+      </motion.span>
     </div>
   )
 }
@@ -86,11 +92,11 @@ export function FeaturesSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          Возможности
+          Что вас ждёт
         </motion.p>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Typography Card */}
+          {/* Timer Card */}
           <motion.div
             className="bg-secondary rounded-xl p-8 min-h-[280px] flex flex-col"
             initial={{ opacity: 0, y: 30 }}
@@ -102,15 +108,15 @@ export function FeaturesSection() {
             data-clickable
           >
             <div className="flex-1">
-              <TypeTester />
+              <TimerAnimation />
             </div>
             <div className="mt-4">
-              <h3 className="font-serif text-xl text-foreground">Типографика</h3>
-              <p className="text-muted-foreground text-sm mt-1">Красивые шрифты, которые идеально масштабируются.</p>
+              <h3 className="font-serif text-xl text-foreground">Всего 15 минут</h3>
+              <p className="text-muted-foreground text-sm mt-1">Экспресс-формат — без долгого позирования и усталости.</p>
             </div>
           </motion.div>
 
-          {/* Layouts Card */}
+          {/* Family Card */}
           <motion.div
             className="bg-secondary rounded-xl p-8 min-h-[280px] flex flex-col"
             initial={{ opacity: 0, y: 30 }}
@@ -122,15 +128,15 @@ export function FeaturesSection() {
             data-clickable
           >
             <div className="flex-1">
-              <LayoutAnimation />
+              <FamilyAnimation />
             </div>
             <div className="mt-4">
-              <h3 className="font-serif text-xl text-foreground">Макеты</h3>
-              <p className="text-muted-foreground text-sm mt-1">Гибкие сетки, которые адаптируются под контент.</p>
+              <h3 className="font-serif text-xl text-foreground">Семья до 5 человек</h3>
+              <p className="text-muted-foreground text-sm mt-1">Студия, реквизит и тематика — всё уже готово для вас.</p>
             </div>
           </motion.div>
 
-          {/* Speed Card */}
+          {/* Emotion Card */}
           <motion.div
             className="bg-secondary rounded-xl p-8 min-h-[280px] flex flex-col"
             initial={{ opacity: 0, y: 30 }}
@@ -142,11 +148,11 @@ export function FeaturesSection() {
             data-clickable
           >
             <div className="flex-1">
-              <SpeedIndicator />
+              <EmotionPulse />
             </div>
             <div className="mt-4">
-              <h3 className="font-serif text-xl text-foreground">Скорость</h3>
-              <p className="text-muted-foreground text-sm mt-1">Молниеносная загрузка страниц для ваших гостей.</p>
+              <h3 className="font-serif text-xl text-foreground">Живые эмоции</h3>
+              <p className="text-muted-foreground text-sm mt-1">Фотографируем настроение, а не постановку.</p>
             </div>
           </motion.div>
         </div>
